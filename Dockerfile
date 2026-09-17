@@ -16,5 +16,5 @@ RUN apk add --no-cache curl ca-certificates tzdata && \
 COPY config.json /app/config.json
 COPY --from=builder /build/bermuda-panel /app/bermuda-panel
 
-EXPOSE 2053 443 8080
+EXPOSE 2053 443
 CMD ["/app/bermuda-panel"]

@@ -4,49 +4,17 @@
   },
   "dns": {
     "servers": [
-      "https+local://dns.google/dns-query",
-      "https+local://cloudflare-dns.com/dns-query",
+      "https://dns.google/dns-query",
+      "https://1.1.1.1/dns-query",
       "8.8.8.8",
-      "1.1.1.1"
-    ],
-    "queryStrategy": "UseIPv"
+      "1.1.1.1",
+      "localhost"
+    ]
   },
   "inbounds": [
     {
-      "tag": "vless-xhttp",
+      "tag": "vless-in",
       "port": 443,
-      "listen": "0.0.0.0",
-      "protocol": "vless",
-      "settings": {
-        "clients": [
-          {
-            "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
-            "email": "normal@cazar"
-          },
-          {
-            "id": "f9e8d7c6-b5a4-3210-fedc-ba9876543210",
-            "email": "ai@cazar"
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "xhttp",
-        "xhttpSettings": {
-          "path": "/x7f3a9b",
-          "mode": "auto",
-          "xPaddingBytes": "100-1000"
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": ["http", "tls", "quic"],
-        "routeOnly": false
-      }
-    },
-    {
-      "tag": "vless-ws",
-      "port": 8080,
       "listen": "0.0.0.0",
       "protocol": "vless",
       "settings": {
@@ -65,13 +33,13 @@
       "streamSettings": {
         "network": "ws",
         "wsSettings": {
-          "path": "/ws"
+          "path": "/"
         }
       },
       "sniffing": {
         "enabled": true,
         "destOverride": ["http", "tls", "quic"],
-        "routeOnly": false
+        "metadataOnly": false
       }
     }
   ],
@@ -80,14 +48,14 @@
       "tag": "direct-normal",
       "protocol": "freedom",
       "settings": {
-        "domainStrategy": "UseIPv"
+        "domainStrategy": "AsIs"
       }
     },
     {
       "tag": "direct-ai",
       "protocol": "freedom",
       "settings": {
-        "domainStrategy": "UseIPv6"
+        "domainStrategy": "IPIfNonMatch"
       }
     },
     {
@@ -115,15 +83,12 @@
           "domain:openai.com",
           "domain:chatgpt.com",
           "domain:anthropic.com",
-          "domain:claude.ai",
-          "domain:oaistatic.com",
-          "domain:oaiusercontent.com"
+          "domain:claude.ai"
         ],
         "outboundTag": "direct-ai"
       },
       {
         "type": "field",
-        "user": ["normal@cazar"],
         "outboundTag": "direct-normal"
       }
     ]
